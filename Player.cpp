@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player(char *name, int maxHP, int force) : m_maxHP(maxHP), m_force(force)
+Player::Player(const char *name, int maxHP, int force) : m_level(1), m_maxHP(maxHP), m_force(force), m_healthPoints(maxHP), m_coins(0)
 {
     if (maxHP <= 0)
     {
@@ -18,8 +18,8 @@ Player::Player(char *name, int maxHP, int force) : m_maxHP(maxHP), m_force(force
     this->m_coins = 0;
 }
 
-Player::Player(const Player &player) : m_level(player.m_level), m_force(player.m_force),
-                                       m_maxHP(player.m_maxHP), m_healthPoints(player.m_healthPoints), m_coins(player.m_coins)
+Player::Player(const Player &player) : m_level(player.m_level), m_maxHP(player.m_maxHP), m_force(player.m_force),
+                                       m_healthPoints(player.m_healthPoints), m_coins(player.m_coins)
 {
     this->m_name = new char[strlen(player.m_name) + 1];
     strcpy(this->m_name, player.m_name);
@@ -31,16 +31,17 @@ Player &Player::operator=(const Player &other)
     this->m_name = new char[strlen(other.m_name) + 1];
     strcpy(this->m_name, other.m_name);
     this->m_level = other.m_level;
-    this->m_force = other.m_force;
     this->m_maxHP = other.m_maxHP;
     this->m_force = other.m_force;
     this->m_healthPoints = other.m_healthPoints;
     this->m_coins = m_coins;
+
+    return *this;
 }
 
 Player::~Player()
 {
-    delete this->m_name;
+    delete[] this->m_name;
 }
 
 void Player::printInfo() const
@@ -63,7 +64,7 @@ int Player::getLevel() const
 
 void Player::buff(int buffAmount)
 {
-    if(buffAmount > 0)
+    if (buffAmount > 0)
     {
         this->m_force += buffAmount;
     }
@@ -76,7 +77,7 @@ void Player::heal(int healAmount)
         this->m_healthPoints += healAmount;
         if (this->m_healthPoints > this->m_maxHP)
         {
-            this->m_healthPoints =this->m_maxHP;
+            this->m_healthPoints = this->m_maxHP;
         }
     }
 }
@@ -95,7 +96,7 @@ void Player::damage(int damageAmount)
 
 bool Player::isKnockedOut() const
 {
-    this->m_healthPoints == 0 ? true : false;
+    return this->m_healthPoints == 0 ? true : false;
 }
 
 void Player::addCoins(int addition)

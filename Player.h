@@ -1,22 +1,22 @@
-#ifndef EX2_PLayer_H
-#define EX2_Player_H
+#ifndef EX2_PLAYER_H
+#define EX2_PLAYER_H
 
-#include <string>
+#include <string.h>
 #include "utilities.h"
 
 
-class Player 
+class Player
 {
-    char* name;
-    int level;
-    int force;
-    int maxHP;
-    int healthPoints;
-    int coins;
+    char* m_name;
+    int m_level;
+    int m_maxHP;
+    int m_force;
+    int m_healthPoints;
+    int m_coins;
 
     public:
     // c'tor
-    Player(char* name, int maxHP = 100, int force = 5);
+    Player(const char* m_name, int m_maxHP = 100, int m_force = 5);
     //copy c'tor
     Player(const Player& player);
     //assignment operator
@@ -42,16 +42,16 @@ class Player
     //damages players by damageAmount
     void damage(int damageAmount);
 
-    //if healthpoints is 0 returns true - is knocked out
+    //if healthPoints is 0 returns true - is knocked out
     bool isKnockedOut() const;
 
     //adds coins
     void addCoins(int addition);
 
     //performs payment and returns true if it succeeds or false if it fails
-    bool pay(int coins);
+    bool pay(int coinsAmount);
 
-    // returns attack strength which is level+force
+    // returns attack strength which is level + force
     int getAttackStrength() const;
     
 };
